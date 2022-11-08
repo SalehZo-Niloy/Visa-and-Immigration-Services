@@ -10,7 +10,7 @@ const Header = () => {
             className='bg-zinc-800'
         >
             <Navbar.Brand>
-                <span className="self-center whitespace-nowrap text-3xl lg:text-5xl font-bold text-green-400">
+                <span className="self-center whitespace-nowrap text-3xl lg:text-5xl font-bold text-emerald-400">
                     N
                 </span>
                 <img
@@ -19,9 +19,9 @@ const Header = () => {
                     alt=""
                 />
             </Navbar.Brand>
-            <Navbar.Toggle className='text-green-400' />
+            <Navbar.Toggle className='text-emerald-400' />
             <Navbar.Collapse>
-                <Link to='/' className='text-white text-base hover:text-green-400 font-semibold'>Home</Link>
+                <Link to='/' className='text-white text-base hover:text-emerald-400 font-semibold'>Home</Link>
             </Navbar.Collapse>
         </Navbar>
     );
