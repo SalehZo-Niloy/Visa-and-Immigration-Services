@@ -21,7 +21,8 @@ const Header = () => {
             </Navbar.Brand>
             <Navbar.Toggle className='text-emerald-400' />
             <Navbar.Collapse>
-                <Link to='/' className='text-white text-base hover:text-emerald-400 font-semibold'>Home</Link>
+                <Link to='/home' className='text-white text-base hover:text-emerald-400 font-semibold'>Home</Link>
+                <Link to='/services' className='text-white text-base hover:text-emerald-400 font-semibold'>Services</Link>
             </Navbar.Collapse>
         </Navbar>
     );

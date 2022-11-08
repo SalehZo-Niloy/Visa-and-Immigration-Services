@@ -1,5 +1,6 @@
 import { Card } from 'flowbite-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ServiceCards = ({ service }) => {
     const { title, image, fee, details } = service;
@@ -15,6 +16,9 @@ const ServiceCards = ({ service }) => {
                 <p className="font-normal text-zinc-700 dark:text-gray-400">
                     {details.slice(0, 100)}...
                 </p>
+                <div className='flex justify-end'>
+                    <Link className='bg-zinc-800 hover:bg-zinc-900 px-4 pb-2 pt-1.5 text-white rounded-lg'>Details</Link>
+                </div>
             </Card>
         </div>
     );
