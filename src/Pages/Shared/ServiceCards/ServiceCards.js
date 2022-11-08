@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ServiceCards = ({ service }) => {
-    const { title, image, fee, details } = service;
+    const { _id, title, image, fee, details } = service;
 
     return (
         <div className="">
@@ -17,7 +17,7 @@ const ServiceCards = ({ service }) => {
                     {details.slice(0, 100)}...
                 </p>
                 <div className='flex justify-end'>
-                    <Link className='bg-zinc-800 hover:bg-zinc-900 px-4 pb-2 pt-1.5 text-white rounded-lg'>Details</Link>
+                    <Link to={`/services/${_id}`} className='bg-zinc-800 hover:bg-zinc-900 px-4 pb-2 pt-1.5 text-white rounded-lg'>View Details</Link>
                 </div>
             </Card>
         </div>
