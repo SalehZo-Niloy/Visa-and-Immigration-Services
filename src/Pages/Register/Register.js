@@ -1,19 +1,24 @@
 import { Button, Label, TextInput } from 'flowbite-react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
 
 
 const Register = () => {
-    const { register } = useContext(AuthContext);
+    const { register, profileUpdater, setUser, auth } = useContext(AuthContext);
+    const [error, setError] = useState(null);
+
 
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
+        const name = form.name.value;
+        const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
         const confirm = form.confirm.value;
         console.log(email, password, confirm);
+
         if (confirm !== password) {
             console.log('password not matched');
             return;
@@ -22,11 +27,28 @@ const Register = () => {
         register(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
-                form.reset();
-                notify();
+                // console.log(user);
+
+                const profile = {
+                    displayName: name,
+                    photoURL: photo
+                }
+                profileUpdater(profile)
+                    .then(() => {
+                        form.reset();
+                        setError(null);
+                        notify();
+                        setUser(auth.currentUser);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        setError(e.message.split(':')[1]);
+                    })
             })
-            .catch(e => console.error(e));
+            .catch(e => {
+                console.error(e);
+                setError(e.message.split(':')[1]);
+            });
     }
 
     const notify = () => toast.success('Registration Successful!!');
@@ -46,6 +68,7 @@ const Register = () => {
                         type="text"
                         name='name'
                         placeholder="name"
+                        required={true}
                     />
                 </div>
                 <div>
@@ -58,6 +81,7 @@ const Register = () => {
                         type="text"
                         name='photo'
                         placeholder="Photo URL"
+                        required={true}
                     />
                 </div>
                 <div>
@@ -100,10 +124,7 @@ const Register = () => {
                     />
                 </div>
                 <div className="flex items-center gap-2">
-                    {/* <Checkbox id="remember" />
-                <Label htmlFor="remember">
-                    Remember me
-                </Label> */}
+                    <p className='text-red-500 font-medium'>{error}</p>
                 </div>
                 <Button className='bg-emerald-400 text-black hover:bg-zinc-700 hover:text-white'
                     type="submit">

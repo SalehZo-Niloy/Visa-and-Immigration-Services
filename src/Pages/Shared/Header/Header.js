@@ -1,4 +1,4 @@
-import { Navbar } from 'flowbite-react';
+import { Avatar, Navbar } from 'flowbite-react';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../Assets/images/VIC-logo.png'
@@ -30,6 +30,25 @@ const Header = () => {
                     alt=""
                 />
             </Navbar.Brand>
+            <div className='flex items-center'>
+                {
+                    user?.email ?
+                        <p className='text-white text-xs lg:text-base'>{user.email}</p>
+                        :
+                        undefined
+                }
+                {
+                    user?.photoURL ?
+                        <Avatar
+                            img={user.photoURL}
+                            rounded={true}
+                            className='ml-2'
+                        />
+                        :
+                        undefined
+
+                }
+            </div>
             <Navbar.Toggle className='text-emerald-400' />
             <Navbar.Collapse>
                 <Link to='/home' className='text-white text-base hover:text-emerald-400 font-semibold'>Home</Link>
@@ -39,9 +58,6 @@ const Header = () => {
                         <Link onClick={handleLogout} className='text-white text-base hover:text-emerald-400 font-semibold'>Log Out</Link>
                         :
                         <Link to='/login' className='text-white text-base hover:text-emerald-400 font-semibold'>Login</Link>
-                }
-                {
-
                 }
             </Navbar.Collapse>
         </Navbar>
