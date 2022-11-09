@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import ReviewCards from './ReviewCards/ReviewCards';
 import ReviewForm from './ReviewForm/ReviewForm';
@@ -10,6 +10,7 @@ const ServiceDetails = () => {
     const service = useLoaderData();
     const { user } = useContext(AuthContext);
     const [reviews, setReviews] = useState([]);
+    const location = useLocation();
     // console.log(service);
     const { _id, title, image, fee, details } = service;
 
@@ -73,10 +74,14 @@ const ServiceDetails = () => {
             <div className='w-11/12 mx-auto'>
                 <h1 className='text-2xl font-semibold text-zinc-800 text-center mt-12 mb-4'>Reviews of Clients</h1>
                 {
-                    reviews.map(review => <ReviewCards
-                        key={review?._id}
-                        review={review}
-                    ></ReviewCards>)
+                    reviews.length > 0 ?
+                        reviews.map(review => <ReviewCards
+                            key={review?._id}
+                            review={review}
+                        ></ReviewCards>)
+                        :
+                        <p className='text-center text-lg font-medium'>No reviews were added</p>
+
                 }
             </div>
             <div>
@@ -89,7 +94,7 @@ const ServiceDetails = () => {
                         :
                         <div>
 
-                            <h3 className='text-center text-lg font-medium'><span className='text-red-600'>Currently you are not logged in!!</span> <br /> Please <Link to='/login' className='text-blue-700 underline font-bold text-xl'>Login</Link> to give your review about the service.</h3>
+                            <h3 className='text-center text-lg font-medium'><span className='text-red-600'>Currently you are not logged in!!</span> <br /> Please <Link to='/login' state={{ from: location }} replace className='text-blue-700 underline font-bold text-xl'>Login</Link> to give your review about the service.</h3>
                         </div>
                 }
             </div>

@@ -2,11 +2,16 @@ import { Button, Label, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
-    const { register, profileUpdater, setUser, auth } = useContext(AuthContext);
+    const { register, profileUpdater, setUser, auth, setLoading } = useContext(AuthContext);
     const [error, setError] = useState(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location?.state?.from?.pathname || '/'
 
 
     const handleSubmit = event => {
@@ -35,11 +40,13 @@ const Register = () => {
                     photoURL: photo
                 }
                 profileUpdater(profile)
-                    .then(() => {
+                    .then(async () => {
                         form.reset();
                         setError(null);
                         notify();
-                        setUser(auth.currentUser);
+                        setUser(auth.currentUser)
+                        navigate(from, { replace: true });
+                        setLoading(false);
                     })
                     .catch(e => {
                         console.log(e);

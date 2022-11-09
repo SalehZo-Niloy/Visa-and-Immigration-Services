@@ -2,13 +2,20 @@ import { Button, Label, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 
 
 const Login = () => {
     const { login, googleLogin } = useContext(AuthContext);
     const [error, setError] = useState(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+
+    const from = location?.state?.from?.pathname || '/';
+    const previousLocation = location?.state?.from
+
 
 
     const handleSubmit = event => {
@@ -25,6 +32,7 @@ const Login = () => {
                 form.reset();
                 setError(null);
                 notify();
+                navigate(from, { replace: true })
             })
             .catch(e => {
                 console.error(e);
@@ -38,6 +46,8 @@ const Login = () => {
                 const user = result.user;
                 // console.log(user);
                 setError(null);
+                notify();
+                navigate(from, { replace: true })
             })
             .catch(e => {
                 console.error(e);
@@ -86,7 +96,7 @@ const Login = () => {
                 </Button>
             </form>
             <div className='my-4 text-center'>
-                <p>Don't have an account? Then please <Link to='/register' className='text-blue-700 hover:text-emerald-500 font-semibold underline '>Register</Link></p>
+                <p>Don't have an account? Then please <Link to='/register' state={{ from: previousLocation }} replace className='text-blue-700 hover:text-emerald-500 font-semibold underline '>Register</Link></p>
             </div>
             <hr className='border-2 border-emerald-500 mb-6' />
             <div>
