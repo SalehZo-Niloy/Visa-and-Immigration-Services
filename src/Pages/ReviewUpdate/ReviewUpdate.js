@@ -2,12 +2,14 @@ import { Textarea } from 'flowbite-react';
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import useTitle from '../../hooks/useTitle';
 
 
 const ReviewUpdate = () => {
     const review = useLoaderData();
     // console.log(review);
     const { _id, serviceTitle, userReview } = review;
+    useTitle('Edit Review');
 
     const handleSubmit = event => {
         event.preventDefault();

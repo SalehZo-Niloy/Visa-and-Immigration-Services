@@ -4,6 +4,7 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import ReviewCards from './ReviewCards/ReviewCards';
 import ReviewForm from './ReviewForm/ReviewForm';
 import toast from 'react-hot-toast';
+import useTitle from '../../hooks/useTitle';
 
 
 const ServiceDetails = () => {
@@ -11,6 +12,7 @@ const ServiceDetails = () => {
     const { user } = useContext(AuthContext);
     const [reviews, setReviews] = useState([]);
     const location = useLocation();
+    useTitle('Details');
     // console.log(service);
     const { _id, title, image, fee, details } = service;
 

@@ -4,11 +4,13 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { jwtToken } from '../../utilities/jwtToken';
+import useTitle from '../../hooks/useTitle';
 
 
 const Register = () => {
     const { register, profileUpdater, setUser, auth, setLoading } = useContext(AuthContext);
     const [error, setError] = useState(null);
+    useTitle('Register');
     const location = useLocation();
     const navigate = useNavigate();
 

@@ -1,11 +1,13 @@
 import { Spinner } from 'flowbite-react';
 import React from 'react';
 import { useLoaderData } from 'react-router-dom';
+import useTitle from '../../hooks/useTitle';
 import ServiceCards from '../Shared/ServiceCards/ServiceCards';
 
 const Services = () => {
     const services = useLoaderData();
     // console.log(services);
+    useTitle('Services');
 
     //----------------------------
     // spinner

@@ -5,9 +5,11 @@ import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { jwtToken } from '../../utilities/jwtToken';
+import useTitle from '../../hooks/useTitle';
 
 
 const Login = () => {
+    useTitle('Login');
     const { login, googleLogin } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const location = useLocation();
