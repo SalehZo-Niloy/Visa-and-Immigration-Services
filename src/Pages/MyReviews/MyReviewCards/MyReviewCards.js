@@ -1,8 +1,13 @@
 import { Avatar, Card } from 'flowbite-react';
 import React from 'react';
 
-const MyReviewCards = ({ review }) => {
-    const { userPhoto, userName, serviceTitle, userReview } = review;
+const MyReviewCards = ({ review, handleReviewDelete }) => {
+    const { _id, userPhoto, userName, serviceTitle, userReview } = review;
+    // console.log(review);
+
+    const handleDelete = (id) => {
+        handleReviewDelete(id);
+    }
 
     return (
         <Card className='bg-emerald-400 mb-4'>
@@ -21,7 +26,7 @@ const MyReviewCards = ({ review }) => {
             </p>
             <div className='flex justify-end'>
                 <button className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg' type="submit">Update Review</button>
-                <button className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg ml-4' type="submit">Delete Review</button>
+                <button onClick={() => handleDelete(_id)} className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg ml-4' type="submit">Delete Review</button>
             </div>
         </Card>
     );

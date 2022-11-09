@@ -22,11 +22,11 @@ const ServiceDetails = () => {
                 setReviews(data);
             })
             .catch(e => console.error(e))
-    }, [])
+    }, [_id])
 
     const giveReview = (reviewText, form) => {
-        const date = new Date();
-        const isoDate = date.toISOString();
+        // const date = new Date();
+        // const isoDate = date.toISOString();
         // console.log(reviewText, user?.displayName, user?.photoURL, user?.email, _id, title, isoDate);
         const reviewDetails = {
             userName: user?.displayName,
@@ -35,7 +35,6 @@ const ServiceDetails = () => {
             userReview: reviewText,
             serviceId: _id,
             serviceTitle: title,
-            date: isoDate
         }
 
         fetch('http://localhost:5000/reviews', {
@@ -51,6 +50,7 @@ const ServiceDetails = () => {
                 if (data.acknowledged) {
                     form.reset();
                     notify();
+                    setReviews([reviewDetails, ...reviews]);
                 }
             })
             .catch(e => console.error(e))
