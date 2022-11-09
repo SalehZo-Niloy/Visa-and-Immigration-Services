@@ -1,19 +1,32 @@
-import React, { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import ReviewCards from './ReviewCards/ReviewCards';
 import ReviewForm from './ReviewForm/ReviewForm';
+import toast from 'react-hot-toast';
+
 
 const ServiceDetails = () => {
     const service = useLoaderData();
     const { user } = useContext(AuthContext);
+    const [reviews, setReviews] = useState([]);
     // console.log(service);
     const { _id, title, image, fee, details } = service;
 
-    const giveReview = (reviewText) => {
+    useEffect(() => {
+        fetch(`http://localhost:5000/reviews/${_id}`)
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                setReviews(data);
+            })
+            .catch(e => console.error(e))
+    }, [])
+
+    const giveReview = (reviewText, form) => {
         const date = new Date();
         const isoDate = date.toISOString();
-        console.log(reviewText, user?.displayName, user?.photoURL, user?.email, _id, title, isoDate);
+        // console.log(reviewText, user?.displayName, user?.photoURL, user?.email, _id, title, isoDate);
         const reviewDetails = {
             userName: user?.displayName,
             userPhoto: user?.photoURL,
@@ -34,9 +47,15 @@ const ServiceDetails = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                if (data.acknowledged) {
+                    form.reset();
+                    notify();
+                }
             })
             .catch(e => console.error(e))
     }
+
+    const notify = () => toast.success('Review submitted Successfully!!');
 
     return (
         <div>
@@ -53,10 +72,26 @@ const ServiceDetails = () => {
             </div>
             <div className='w-11/12 mx-auto'>
                 <h1 className='text-2xl font-semibold text-zinc-800 text-center mt-12 mb-4'>Reviews of Clients</h1>
-                <ReviewCards></ReviewCards>
+                {
+                    reviews.map(review => <ReviewCards
+                        key={review?._id}
+                        review={review}
+                    ></ReviewCards>)
+                }
             </div>
             <div>
-                <ReviewForm giveReview={giveReview}></ReviewForm>
+                <div className="mt-12 mb-4 block">
+                    <h1 className='text-2xl font-semibold text-zinc-800 text-center'>Give Your valuable Review of the Service</h1>
+                </div>
+                {
+                    user ?
+                        <ReviewForm giveReview={giveReview}></ReviewForm>
+                        :
+                        <div>
+
+                            <h3 className='text-center text-lg font-medium'><span className='text-red-600'>Currently you are not logged in!!</span> <br /> Please <Link to='/login' className='text-blue-700 underline font-bold text-xl'>Login</Link> to give your review about the service.</h3>
+                        </div>
+                }
             </div>
         </div>
     );

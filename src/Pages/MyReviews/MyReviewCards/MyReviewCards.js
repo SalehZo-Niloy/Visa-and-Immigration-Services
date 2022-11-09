@@ -1,8 +1,9 @@
 import { Avatar, Card } from 'flowbite-react';
 import React from 'react';
 
-const ReviewCards = ({ review }) => {
+const MyReviewCards = ({ review }) => {
     const { userPhoto, userName, serviceTitle, userReview } = review;
+
     return (
         <Card className='bg-emerald-400 mb-4'>
             <div className='flex items-center'>
@@ -18,8 +19,12 @@ const ReviewCards = ({ review }) => {
             <p className="font-medium text-black">
                 {userReview}
             </p>
+            <div className='flex justify-end'>
+                <button className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg' type="submit">Update Review</button>
+                <button className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg ml-4' type="submit">Delete Review</button>
+            </div>
         </Card>
     );
 };
 
-export default ReviewCards;
+export default MyReviewCards;

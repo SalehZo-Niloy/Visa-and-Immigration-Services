@@ -17,10 +17,11 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const confirm = form.confirm.value;
-        console.log(email, password, confirm);
+        // console.log(email, password, confirm);
 
         if (confirm !== password) {
             console.log('password not matched');
+            setError('Password did not match!!');
             return;
         }
 

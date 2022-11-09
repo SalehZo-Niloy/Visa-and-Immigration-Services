@@ -55,6 +55,18 @@ const Header = () => {
                 <Link to='/services' className='text-white text-base hover:text-emerald-400 font-semibold'>Services</Link>
                 {
                     user?.email ?
+                        <Link to='/myReviews' className='text-white text-base hover:text-emerald-400 font-semibold'>My Reviews</Link>
+                        :
+                        undefined
+                }
+                {
+                    user?.email ?
+                        <Link to='/addService' className='text-white text-base hover:text-emerald-400 font-semibold'>Add Service</Link>
+                        :
+                        undefined
+                }
+                {
+                    user?.email ?
                         <Link onClick={handleLogout} className='text-white text-base hover:text-emerald-400 font-semibold'>Log Out</Link>
                         :
                         <Link to='/login' className='text-white text-base hover:text-emerald-400 font-semibold'>Login</Link>

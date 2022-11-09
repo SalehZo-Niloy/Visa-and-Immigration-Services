@@ -5,15 +5,13 @@ const ReviewForm = ({ giveReview }) => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        const reviewText = event.target.review.value;
-        giveReview(reviewText);
+        const form = event.target;
+        const reviewText = form.review.value;
+        giveReview(reviewText, form);
     }
 
     return (
         <form onSubmit={handleSubmit} className='w-10/12 mx-auto mt-12'>
-            <div className="mb-4 block">
-                <h1 className='text-2xl font-semibold text-zinc-800 text-center'>Give Your valuable Review of the Service</h1>
-            </div>
             <Textarea
                 placeholder="Give review of the service..."
                 type='text'
