@@ -1,9 +1,10 @@
-import { Button, Label, TextInput } from 'flowbite-react';
+import { Button, Label, Spinner, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
+import { jwtToken } from '../../utilities/jwtToken';
 
 
 const Login = () => {
@@ -12,7 +13,22 @@ const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    //----------------------------
+    // spinner
+    //----------------------------
+    if (!login || !googleLogin) {
+        return <div className="flex items-center justify-center mt-12 ">
+            <Spinner
+                color="success"
+                aria-label="Extra large spinner example"
+                size="xl"
+            />
+        </div>
+    }
 
+    //----------------------------
+    // previous route infos
+    //----------------------------
     const from = location?.state?.from?.pathname || '/';
     const previousLocation = location?.state?.from
 
@@ -25,6 +41,9 @@ const Login = () => {
         const password = form.password.value;
         // console.log(email, password);
 
+        //----------------------------
+        // Login with email password
+        //----------------------------
         login(email, password)
             .then(result => {
                 const user = result.user;
@@ -32,7 +51,7 @@ const Login = () => {
                 form.reset();
                 setError(null);
                 notify();
-                navigate(from, { replace: true })
+                jwtToken(user, navigate, from);
             })
             .catch(e => {
                 console.error(e);
@@ -41,13 +60,16 @@ const Login = () => {
     }
 
     const handleGoogleLogin = () => {
+        //----------------------------
+        // login with google
+        //----------------------------
         googleLogin()
             .then(result => {
                 const user = result.user;
                 // console.log(user);
                 setError(null);
                 notify();
-                navigate(from, { replace: true })
+                jwtToken(user, navigate, from);
             })
             .catch(e => {
                 console.error(e);

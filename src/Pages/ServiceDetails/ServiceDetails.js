@@ -50,6 +50,7 @@ const ServiceDetails = () => {
                 if (data.acknowledged) {
                     form.reset();
                     notify();
+                    reviewDetails._id = Math.random();
                     setReviews([reviewDetails, ...reviews]);
                 }
             })

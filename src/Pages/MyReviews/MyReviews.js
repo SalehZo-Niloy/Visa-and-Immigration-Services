@@ -1,14 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import MyReviewCards from './MyReviewCards/MyReviewCards';
+import toast from 'react-hot-toast';
+
 
 const MyReviews = () => {
     const [reviews, setReviews] = useState([]);
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
 
+    //----------------------------
+    // fetching users reviews
+    //----------------------------
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews?email=${user?.email}`)
-            .then(res => res.json())
+        fetch(`http://localhost:5000/reviews?email=${user?.email}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('nvis-token')}`
+            }
+        })
+            .then(res => {
+                if (res.status === 401 || res.status === 403) {
+                    return logout()
+                }
+                return res.json()
+            })
             .then(data => {
                 // console.log(data);
                 setReviews(data);
@@ -16,7 +30,14 @@ const MyReviews = () => {
             .catch(e => console.error(e))
     }, [user, user?.email])
 
+    //----------------------------
+    // deleting a review
+    //----------------------------
     const handleReviewDelete = (id) => {
+        const proceed = window.confirm('Do you want to delete This review?');
+        if (!proceed) {
+            return;
+        }
         fetch(`http://localhost:5000/reviews/${id}`, {
             method: 'DELETE'
         })
@@ -24,12 +45,16 @@ const MyReviews = () => {
             .then(data => {
                 // console.log(data);
                 if (data.acknowledged) {
+                    notify();
                     const remainingReviews = reviews.filter(review => review._id !== id);
                     setReviews(remainingReviews);
                 }
             })
             .catch(e => console.error(e))
     }
+
+    const notify = () => toast.success('Successfully deleted review');
+
 
     return (
         <div className='min-h-[90vh]'>

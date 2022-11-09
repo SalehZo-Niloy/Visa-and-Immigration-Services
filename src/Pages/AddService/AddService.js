@@ -20,7 +20,9 @@ const AddService = () => {
             fee,
             details,
         }
-
+        //----------------------------
+        // adding services in database
+        //----------------------------
         fetch('http://localhost:5000/service', {
             method: 'POST',
             headers: {
@@ -38,7 +40,9 @@ const AddService = () => {
             })
             .catch(e => console.error(e))
     }
-
+    //----------------------------
+    // toast function for successful service add
+    //----------------------------
     const notify = () => toast.success('Service Added Successfully!!');
 
     return (

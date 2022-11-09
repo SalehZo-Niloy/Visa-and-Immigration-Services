@@ -1,5 +1,6 @@
 import { Avatar, Card } from 'flowbite-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MyReviewCards = ({ review, handleReviewDelete }) => {
     const { _id, userPhoto, userName, serviceTitle, userReview } = review;
@@ -25,7 +26,7 @@ const MyReviewCards = ({ review, handleReviewDelete }) => {
                 {userReview}
             </p>
             <div className='flex justify-end'>
-                <button className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg' type="submit">Update Review</button>
+                <Link to={`/updateReview/${_id}`} className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg' type="submit">Edit Review</Link>
                 <button onClick={() => handleDelete(_id)} className='bg-zinc-700 hover:bg-zinc-900 text-white px-3 py-1.5 rounded-lg ml-4' type="submit">Delete Review</button>
             </div>
         </Card>

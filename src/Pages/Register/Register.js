@@ -1,8 +1,9 @@
-import { Button, Label, TextInput } from 'flowbite-react';
+import { Button, Label, Spinner, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { jwtToken } from '../../utilities/jwtToken';
 
 
 const Register = () => {
@@ -10,6 +11,19 @@ const Register = () => {
     const [error, setError] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
+
+    //----------------------------
+    // spinner
+    //----------------------------
+    if (!register) {
+        return <div className="flex items-center justify-center mt-12 ">
+            <Spinner
+                color="success"
+                aria-label="Extra large spinner example"
+                size="xl"
+            />
+        </div>
+    }
 
     const from = location?.state?.from?.pathname || '/'
 
@@ -45,8 +59,7 @@ const Register = () => {
                         setError(null);
                         notify();
                         setUser(auth.currentUser)
-                        navigate(from, { replace: true });
-                        setLoading(false);
+                        jwtToken(user, navigate, from, setLoading);
                     })
                     .catch(e => {
                         console.log(e);

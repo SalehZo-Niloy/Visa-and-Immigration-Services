@@ -8,6 +8,9 @@ const HomeServices = () => {
     const [services, setServices] = useState([]);
     const navigate = useNavigate();
 
+    //----------------------------
+    // fetching service data
+    //----------------------------
     useEffect(() => {
         fetch('http://localhost:5000/homeService')
             .then(res => res.json())
@@ -18,6 +21,9 @@ const HomeServices = () => {
             .catch(e => console.error(e))
     }, [])
 
+    //----------------------------
+    // navigating to services page
+    //----------------------------
     const handleSeeAll = () => {
         navigate('/services');
     }
