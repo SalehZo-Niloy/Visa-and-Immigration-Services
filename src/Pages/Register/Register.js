@@ -66,13 +66,14 @@ const Register = () => {
                         jwtToken(user, navigate, from, setLoading);
                     })
                     .catch(e => {
-                        console.log(e);
+                        console.error(e);
                         setError(e.message.split(':')[1]);
                     })
             })
             .catch(e => {
                 console.error(e);
                 setError(e.message.split(':')[1]);
+                setLoading(false);
             });
     }
 

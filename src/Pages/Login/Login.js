@@ -11,7 +11,7 @@ import Loader from '../Shared/Loader/Loader';
 
 const Login = () => {
     useTitle('Login');
-    const { login, googleLogin, loading } = useContext(AuthContext);
+    const { login, googleLogin, loading, setLoading } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
@@ -51,6 +51,7 @@ const Login = () => {
             .catch(e => {
                 console.error(e);
                 setError(e.message.split(':')[1]);
+                setLoading(false);
             })
     }
 
@@ -73,6 +74,7 @@ const Login = () => {
             .catch(e => {
                 console.error(e);
                 setError(e.message.split(':')[1]);
+                setLoading(false);
             })
     }
 
