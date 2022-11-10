@@ -53,6 +53,7 @@ const Header = () => {
             <Navbar.Collapse>
                 <Link to='/home' className='text-white text-base hover:text-emerald-400 font-semibold'>Home</Link>
                 <Link to='/services' className='text-white text-base hover:text-emerald-400 font-semibold'>Services</Link>
+                <Link to='/blog' className='text-white text-base hover:text-emerald-400 font-semibold'>Blogs</Link>
                 {
                     user?.email ?
                         <Link to='/myReviews' className='text-white text-base hover:text-emerald-400 font-semibold'>My Reviews</Link>

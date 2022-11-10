@@ -2,11 +2,16 @@ import { Card } from 'flowbite-react';
 import React from 'react';
 
 const UpcomingServices = () => {
+
+    //----------------------------
+    // a unique section
+    //----------------------------
+
     return (
         <div className='bg-emerald-400 w-10/12 mx-auto mt-12 pt-4 pb-8 rounded-lg'>
             <h1 className='text-center text-zinc-800 text-3xl font-semibold'>Upcoming Services</h1>
             <p className='text-center text-zinc-800 w-3/4 mx-auto mt-4'>These services would be available soon. Contact for more info.</p>
-            <div className='mt-8 grid grid-cols-3 gap-8 w-11/12 mx-auto'>
+            <div className='mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8 w-11/12 mx-auto'>
                 <div>
                     <Card
                         className='bg-emerald-200 border-none'

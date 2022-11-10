@@ -1,34 +1,21 @@
-import { Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { Button, Label, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { jwtToken } from '../../utilities/jwtToken';
 import useTitle from '../../hooks/useTitle';
+import Loader from '../Shared/Loader/Loader';
 
 
 const Register = () => {
-    const { register, profileUpdater, setUser, auth, setLoading } = useContext(AuthContext);
+    const { register, profileUpdater, setUser, auth, loading, setLoading } = useContext(AuthContext);
     const [error, setError] = useState(null);
     useTitle('Register');
     const location = useLocation();
     const navigate = useNavigate();
 
-    //----------------------------
-    // spinner
-    //----------------------------
-    if (!register) {
-        return <div className="flex items-center justify-center mt-12 ">
-            <Spinner
-                color="success"
-                aria-label="Extra large spinner example"
-                size="xl"
-            />
-        </div>
-    }
-
     const from = location?.state?.from?.pathname || '/'
-
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -46,6 +33,9 @@ const Register = () => {
             return;
         }
 
+        //----------------------------
+        // registering a user
+        //----------------------------
         register(email, password)
             .then(result => {
                 const user = result.user;
@@ -55,12 +45,24 @@ const Register = () => {
                     displayName: name,
                     photoURL: photo
                 }
+
+                //----------------------------
+                // taking user name and photo url
+                //----------------------------
                 profileUpdater(profile)
                     .then(async () => {
                         form.reset();
                         setError(null);
                         notify();
+
+                        //----------------------------
+                        // setting user without using onAuthStateChanged
+                        //----------------------------
                         setUser(auth.currentUser)
+
+                        //----------------------------
+                        // creating jwt token for user
+                        //----------------------------
                         jwtToken(user, navigate, from, setLoading);
                     })
                     .catch(e => {
@@ -76,9 +78,16 @@ const Register = () => {
 
     const notify = () => toast.success('Registration Successful!!');
 
+    //----------------------------
+    // spinner
+    //----------------------------
+    if (loading) {
+        return <Loader></Loader>
+    }
+
 
     return (
-        <div className='w-1/2 mx-auto'>
+        <div className='w-5/6 lg:w-1/2 mx-auto'>
             <h1 className='text-4xl text-zinc-800 font-semibold text-center my-4'>Register!!</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>

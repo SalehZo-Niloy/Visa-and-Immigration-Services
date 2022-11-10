@@ -1,11 +1,13 @@
 import { Button, Label, Textarea, TextInput } from 'flowbite-react';
 import React from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import useTitle from '../../hooks/useTitle';
 
 
 const AddService = () => {
     useTitle('Add Service');
+    const navigate = useNavigate();
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -25,7 +27,7 @@ const AddService = () => {
         //----------------------------
         // adding services in database
         //----------------------------
-        fetch('http://localhost:5000/service', {
+        fetch('https://assignment-11-server-five-beta.vercel.app/service', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -38,6 +40,7 @@ const AddService = () => {
                 if (data.acknowledged) {
                     form.reset();
                     notify();
+                    navigate('/services');
                 }
             })
             .catch(e => console.error(e))
@@ -50,7 +53,7 @@ const AddService = () => {
     return (
         <div>
             <h1 className='text-2xl font-semibold text-zinc-800 text-center my-4'>Add a Service</h1>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-1/2 mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-10/12 lg:w-1/2 mx-auto">
                 <div>
                     <div className="mb-2 block">
                         <Label

@@ -11,7 +11,7 @@ const ReviewForm = ({ giveReview }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className='w-10/12 mx-auto mt-12'>
+        <form onSubmit={handleSubmit} className='w-10/12 mx-auto mt-4 lg:mt-12'>
             <Textarea
                 placeholder="Give review of the service..."
                 type='text'

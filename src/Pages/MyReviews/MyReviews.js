@@ -14,7 +14,7 @@ const MyReviews = () => {
     // fetching users reviews
     //----------------------------
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews?email=${user?.email}`, {
+        fetch(`https://assignment-11-server-five-beta.vercel.app/reviews?email=${user?.email}`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('nvis-token')}`
             }
@@ -40,7 +40,7 @@ const MyReviews = () => {
         if (!proceed) {
             return;
         }
-        fetch(`http://localhost:5000/reviews/${id}`, {
+        fetch(`https://assignment-11-server-five-beta.vercel.app/reviews/${id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())
@@ -70,7 +70,7 @@ const MyReviews = () => {
                             handleReviewDelete={handleReviewDelete}
                         ></MyReviewCards>)
                         :
-                        <p className='text-center text-lg font-medium'>No reviews were added</p>
+                        <p className='text-center text-lg font-medium'>No reviews were added <br /> or data loading!! Please wait a bit!!</p>
                 }
             </div>
         </div>

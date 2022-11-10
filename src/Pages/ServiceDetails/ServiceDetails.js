@@ -16,8 +16,11 @@ const ServiceDetails = () => {
     // console.log(service);
     const { _id, title, image, fee, details } = service;
 
+    //----------------------------
+    // Loading reviews of the service
+    //----------------------------
     useEffect(() => {
-        fetch(`http://localhost:5000/reviews/${_id}`)
+        fetch(`https://assignment-11-server-five-beta.vercel.app/reviews/${_id}`)
             .then(res => res.json())
             .then(data => {
                 // console.log(data);
@@ -27,9 +30,7 @@ const ServiceDetails = () => {
     }, [_id])
 
     const giveReview = (reviewText, form) => {
-        // const date = new Date();
-        // const isoDate = date.toISOString();
-        // console.log(reviewText, user?.displayName, user?.photoURL, user?.email, _id, title, isoDate);
+        // console.log(reviewText, user?.displayName, user?.photoURL, user?.email, _id, title);
         const reviewDetails = {
             userName: user?.displayName,
             userPhoto: user?.photoURL,
@@ -39,7 +40,10 @@ const ServiceDetails = () => {
             serviceTitle: title,
         }
 
-        fetch('http://localhost:5000/reviews', {
+        //----------------------------
+        // posting a review
+        //----------------------------
+        fetch('https://assignment-11-server-five-beta.vercel.app/reviews', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -52,6 +56,10 @@ const ServiceDetails = () => {
                 if (data.acknowledged) {
                     form.reset();
                     notify();
+
+                    //----------------------------
+                    // giving a random id only for server side rendering after submitting review to prevent component key error
+                    //----------------------------
                     reviewDetails._id = Math.random();
                     setReviews([reviewDetails, ...reviews]);
                 }
@@ -63,14 +71,14 @@ const ServiceDetails = () => {
 
     return (
         <div>
-            <div className='w-full bg-zinc-600 p-16 grid grid-cols-2 gap-8'>
-                <div>
-                    <h1 className='text-white text-3xl font-semibold'>{title}</h1>
+            <div className='w-full bg-zinc-600 p-4 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-8'>
+                <div className='order-last lg:order-1'>
+                    <h1 className='text-white text-2xl lg:text-3xl font-semibold'>{title}</h1>
                     <p className='mt-4 text-white'><span className='font-semibold'>Details:</span> <br /> {details}</p>
                     <p className='text-white mt-4'>For details information and every thing you want to know please consult us.</p>
                     <p className='text-white font-bold mt-4'>Consultancy Fee: ${fee}</p>
                 </div>
-                <div>
+                <div className='order-1 lg:order-last'>
                     <img src={image} className='w-full rounded' alt="" />
                 </div>
             </div>
@@ -83,13 +91,13 @@ const ServiceDetails = () => {
                             review={review}
                         ></ReviewCards>)
                         :
-                        <p className='text-center text-lg font-medium'>No reviews were added</p>
+                        <p className='text-center text-base lg:text-lg font-medium'>No reviews were added</p>
 
                 }
             </div>
             <div>
                 <div className="mt-12 mb-4 block">
-                    <h1 className='text-2xl font-semibold text-zinc-800 text-center'>Give Your valuable Review of the Service</h1>
+                    <h1 className='w-5/6 mx-auto text-xl lg:text-2xl font-semibold text-zinc-800 text-center'>Give Your valuable Review of the Service</h1>
                 </div>
                 {
                     user ?
@@ -97,7 +105,7 @@ const ServiceDetails = () => {
                         :
                         <div>
 
-                            <h3 className='text-center text-lg font-medium'><span className='text-red-600'>Currently you are not logged in!!</span> <br /> Please <Link to='/login' state={{ from: location }} replace className='text-blue-700 underline font-bold text-xl'>Login</Link> to give your review about the service.</h3>
+                            <h3 className='text-center text-lg font-medium w-5/6 mx-auto'><span className='text-red-600'>Currently you are not logged in!!</span> <br /> Please <Link to='/login' state={{ from: location }} replace className='text-blue-700 underline font-bold text-xl'>Login</Link> to give your review about the service.</h3>
                         </div>
                 }
             </div>

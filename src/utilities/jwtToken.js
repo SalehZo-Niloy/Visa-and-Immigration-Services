@@ -2,7 +2,7 @@ export const jwtToken = (user, navigate, from, setLoading) => {
     const currentUser = {
         email: user?.email
     }
-    fetch('http://localhost:5000/jwt', {
+    fetch('https://assignment-11-server-five-beta.vercel.app/jwt', {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
@@ -13,9 +13,17 @@ export const jwtToken = (user, navigate, from, setLoading) => {
         .then(data => {
             // console.log(data);
             localStorage.setItem('nvis-token', data.token);
+
+            //----------------------------
+            // redirecting to previous page
+            //----------------------------
             if (navigate) {
                 navigate(from, { replace: true });
             }
+
+            //----------------------------
+            // setting loading to false for registration process only
+            //----------------------------
             if (setLoading) {
                 setLoading(false);
             }

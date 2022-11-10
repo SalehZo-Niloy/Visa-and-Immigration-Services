@@ -1,4 +1,4 @@
-import { Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { Button, Label, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import toast from 'react-hot-toast';
@@ -6,27 +6,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { jwtToken } from '../../utilities/jwtToken';
 import useTitle from '../../hooks/useTitle';
+import Loader from '../Shared/Loader/Loader';
 
 
 const Login = () => {
     useTitle('Login');
-    const { login, googleLogin } = useContext(AuthContext);
+    const { login, googleLogin, loading } = useContext(AuthContext);
     const [error, setError] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
 
-    //----------------------------
-    // spinner
-    //----------------------------
-    if (!login || !googleLogin) {
-        return <div className="flex items-center justify-center mt-12 ">
-            <Spinner
-                color="success"
-                aria-label="Extra large spinner example"
-                size="xl"
-            />
-        </div>
-    }
 
     //----------------------------
     // previous route infos
@@ -53,6 +42,10 @@ const Login = () => {
                 form.reset();
                 setError(null);
                 notify();
+
+                //----------------------------
+                // creating jwt token for user
+                //----------------------------
                 jwtToken(user, navigate, from);
             })
             .catch(e => {
@@ -71,6 +64,10 @@ const Login = () => {
                 // console.log(user);
                 setError(null);
                 notify();
+
+                //----------------------------
+                // creating jwt token for user
+                //----------------------------
                 jwtToken(user, navigate, from);
             })
             .catch(e => {
@@ -81,8 +78,15 @@ const Login = () => {
 
     const notify = () => toast.success('Login Successful!!');
 
+    //----------------------------
+    // spinner
+    //----------------------------
+    if (loading) {
+        return <Loader></Loader>
+    }
+
     return (
-        <div className='w-1/2 mx-auto'>
+        <div className='w-5/6 lg:w-1/2 mx-auto'>
             <h1 className='text-4xl text-zinc-800 font-semibold text-center my-4'>Login!!</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>

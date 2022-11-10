@@ -12,7 +12,7 @@ const HomeServices = () => {
     // fetching service data
     //----------------------------
     useEffect(() => {
-        fetch('http://localhost:5000/homeService')
+        fetch('https://assignment-11-server-five-beta.vercel.app/homeService')
             .then(res => res.json())
             .then(data => {
                 // console.log(data);

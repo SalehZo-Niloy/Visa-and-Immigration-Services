@@ -1,6 +1,6 @@
 import { Textarea } from 'flowbite-react';
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useTitle from '../../hooks/useTitle';
 
@@ -8,6 +8,7 @@ import useTitle from '../../hooks/useTitle';
 const ReviewUpdate = () => {
     const review = useLoaderData();
     // console.log(review);
+    const navigate = useNavigate();
     const { _id, serviceTitle, userReview } = review;
     useTitle('Edit Review');
 
@@ -16,7 +17,10 @@ const ReviewUpdate = () => {
         const userReview = event.target.review.value;
         // console.log(userReview);
 
-        fetch(`http://localhost:5000/review/${_id}`, {
+        //----------------------------
+        // updating review by fetch
+        //----------------------------
+        fetch(`https://assignment-11-server-five-beta.vercel.app/review/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
@@ -28,6 +32,7 @@ const ReviewUpdate = () => {
                 // console.log(data);
                 if (data.acknowledged) {
                     notify();
+                    navigate('/myReviews');
                 }
             })
             .catch(e => console.error(e))

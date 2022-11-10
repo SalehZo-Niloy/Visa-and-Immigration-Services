@@ -1,25 +1,31 @@
-import { Spinner } from 'flowbite-react';
-import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import useTitle from '../../hooks/useTitle';
+import Loader from '../Shared/Loader/Loader';
 import ServiceCards from '../Shared/ServiceCards/ServiceCards';
 
 const Services = () => {
-    const services = useLoaderData();
+    const [services, setServices] = useState(null);
     // console.log(services);
     useTitle('Services');
+
+
+    //----------------------------
+    // fetching all service data
+    //----------------------------
+    useEffect(() => {
+        fetch('https://assignment-11-server-five-beta.vercel.app/allServices')
+            .then(res => res.json())
+            .then(data => {
+                setServices(data);
+            })
+            .catch(e => console.error(e))
+    }, [])
 
     //----------------------------
     // spinner
     //----------------------------
     if (!services) {
-        return <div className="flex items-center justify-center mt-12 ">
-            <Spinner
-                color="success"
-                aria-label="Extra large spinner example"
-                size="xl"
-            />
-        </div>
+        return <Loader></Loader>
     }
 
     return (

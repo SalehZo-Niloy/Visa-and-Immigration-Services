@@ -13,7 +13,7 @@ const ServiceCards = ({ service }) => {
             <Card className='bg-emerald-400'>
                 <PhotoProvider>
                     <PhotoView src={image}>
-                        <img src={image} className='rounded-md h-48 lg:h-56' alt="" />
+                        <img src={image} className='rounded-md h-48 lg:h-56 cursor-pointer' alt="" title='Click to view full image' />
                     </PhotoView>
                 </PhotoProvider>
                 <h5 className="text-2xl font-bold tracking-tight text-zinc-800">
